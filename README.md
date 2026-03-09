@@ -1,1 +1,0 @@
-# Diagrama_Componentes_de_una_computadora_y_funcionamiento_interno_Arquitectura_de_computadoraV2
