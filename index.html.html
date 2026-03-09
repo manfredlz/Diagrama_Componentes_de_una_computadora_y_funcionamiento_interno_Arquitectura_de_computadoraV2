@@ -1,0 +1,1266 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Arquitectura de la Computadora — Diagrama Interactivo</title>
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=JetBrains+Mono:wght@300;400;700&family=Bebas+Neue&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --bg:#060c14;
+  --surface:#0c1420;
+  --card:#0f1c2e;
+  --card2:#152035;
+  --amber:#f59e0b;
+  --amber2:#fbbf24;
+  --amber3:#fde68a;
+  --teal:#14b8a6;
+  --blue:#38bdf8;
+  --red:#f87171;
+  --green:#4ade80;
+  --text:#f0f4f8;
+  --muted:#8097b1;
+  --border:rgba(255,255,255,0.07);
+  --glow:rgba(245,158,11,0.25);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Rajdhani',sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  overflow-x:hidden;
+}
+
+/* ── CIRCUIT BACKGROUND ── */
+body::before{
+  content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
+  background-image:
+    linear-gradient(rgba(245,158,11,0.03) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(245,158,11,0.03) 1px,transparent 1px);
+  background-size:48px 48px;
+}
+
+/* ── NAV ── */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  height:56px;
+  background:rgba(6,12,20,0.96);
+  backdrop-filter:blur(12px);
+  border-bottom:1px solid rgba(245,158,11,0.2);
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 2rem;
+}
+.nav-brand{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:1.3rem;letter-spacing:3px;color:var(--amber);
+}
+.nav-tabs{display:flex;gap:4px;}
+.nav-tab{
+  font-family:'JetBrains Mono',monospace;font-size:0.6rem;
+  color:var(--muted);text-decoration:none;
+  padding:6px 14px;border-radius:4px;
+  border:1px solid transparent;transition:all .2s;letter-spacing:1px;
+}
+.nav-tab:hover{color:var(--amber);border-color:rgba(245,158,11,0.3);}
+
+/* ── HERO ── */
+#hero{
+  min-height:100vh;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  text-align:center;padding:80px 2rem 4rem;
+  position:relative;overflow:hidden;
+}
+.hero-chip{
+  position:absolute;width:500px;height:500px;
+  border:1px solid rgba(245,158,11,0.08);border-radius:50%;
+  animation:spin 40s linear infinite;
+}
+.hero-chip::before{
+  content:'';position:absolute;inset:30px;
+  border:1px solid rgba(245,158,11,0.05);border-radius:50%;
+}
+@keyframes spin{to{transform:rotate(360deg)}}
+.hero-eyebrow{
+  font-family:'JetBrains Mono',monospace;font-size:0.65rem;
+  color:var(--amber);letter-spacing:5px;text-transform:uppercase;
+  border:1px solid rgba(245,158,11,0.3);padding:5px 16px;border-radius:100px;
+  margin-bottom:1.5rem;position:relative;
+}
+h1{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:clamp(3rem,8vw,6.5rem);
+  line-height:0.95;letter-spacing:2px;position:relative;
+}
+h1 .hl{color:var(--amber);}
+.hero-desc{
+  font-family:'JetBrains Mono',monospace;font-size:0.72rem;
+  color:var(--muted);max-width:560px;margin:1.5rem auto 2.5rem;
+  line-height:1.9;position:relative;
+}
+.cta-row{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;position:relative;}
+.btn{
+  font-family:'JetBrains Mono',monospace;font-size:0.7rem;
+  padding:12px 24px;border-radius:6px;cursor:pointer;
+  text-decoration:none;letter-spacing:1px;transition:all .25s;display:inline-block;
+}
+.btn-amber{background:var(--amber);color:#000;font-weight:700;}
+.btn-amber:hover{background:var(--amber2);transform:translateY(-2px);box-shadow:0 8px 24px var(--glow);}
+.btn-outline{border:1px solid var(--border);color:var(--text);}
+.btn-outline:hover{border-color:rgba(245,158,11,.4);color:var(--amber);}
+
+/* ── SECTIONS ── */
+section{position:relative;z-index:1;padding:6rem 2rem;max-width:1400px;margin:0 auto;}
+.sec-eyebrow{
+  font-family:'JetBrains Mono',monospace;font-size:0.6rem;
+  color:var(--amber);letter-spacing:4px;margin-bottom:.75rem;display:flex;
+  align-items:center;gap:.75rem;
+}
+.sec-eyebrow::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,rgba(245,158,11,.3),transparent);}
+h2{font-family:'Bebas Neue',sans-serif;font-size:clamp(2rem,4vw,3.2rem);letter-spacing:1px;margin-bottom:.75rem;}
+h2 span{color:var(--amber);}
+.sec-desc{
+  font-family:'JetBrains Mono',monospace;font-size:0.68rem;
+  color:var(--muted);line-height:1.9;max-width:720px;margin-bottom:3rem;
+}
+
+/* ── AUDIO PLAYER ── */
+.audio-player{
+  display:inline-flex;align-items:center;gap:.75rem;
+  background:rgba(245,158,11,0.07);
+  border:1px solid rgba(245,158,11,0.2);
+  border-radius:100px;padding:8px 18px;margin-bottom:2rem;
+  cursor:pointer;transition:all .2s;
+}
+.audio-player:hover{background:rgba(245,158,11,0.12);border-color:rgba(245,158,11,0.4);}
+.audio-play-btn{
+  width:28px;height:28px;border-radius:50%;
+  background:var(--amber);border:none;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  font-size:.7rem;flex-shrink:0;transition:all .2s;
+}
+.audio-play-btn:hover{background:var(--amber2);}
+.audio-label{
+  font-family:'JetBrains Mono',monospace;font-size:0.62rem;color:var(--amber);
+}
+.audio-bars{display:flex;gap:2px;align-items:center;height:16px;}
+.audio-bar{
+  width:3px;background:var(--amber);border-radius:2px;opacity:.4;
+  animation:barAnim 1.2s ease-in-out infinite;
+}
+.audio-bar:nth-child(2){animation-delay:.1s;}
+.audio-bar:nth-child(3){animation-delay:.2s;}
+.audio-bar:nth-child(4){animation-delay:.3s;}
+.audio-bar:nth-child(5){animation-delay:.4s;}
+@keyframes barAnim{0%,100%{height:4px;opacity:.3}50%{height:14px;opacity:1}}
+.audio-playing .audio-bar{opacity:1;}
+
+/* ── MACRO DIAGRAM SVG WRAPPER ── */
+.diagram-wrap{
+  background:var(--surface);
+  border:1px solid var(--border);border-radius:16px;
+  padding:2rem;overflow:hidden;position:relative;
+}
+.diagram-wrap::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse at 50% 0%,rgba(245,158,11,0.06),transparent 60%);
+  pointer-events:none;
+}
+
+/* ── CPU INTERNAL DIAGRAM ── */
+.cpu-internal{
+  display:grid;grid-template-columns:1fr 1fr 1fr;gap:1.5rem;
+}
+.cpu-unit-card{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:14px;overflow:hidden;
+  transition:transform .25s,box-shadow .25s;cursor:pointer;
+}
+.cpu-unit-card:hover{transform:translateY(-4px);box-shadow:0 16px 40px rgba(0,0,0,.5);}
+.uc-header{padding:1.2rem 1.5rem;border-bottom:1px solid var(--border);}
+.uc-header.cu{border-bottom-color:var(--blue);}
+.uc-header.ru{border-bottom-color:#a78bfa;}
+.uc-header.alu{border-bottom-color:var(--amber);}
+.uc-icon-row{display:flex;align-items:center;gap:.75rem;margin-bottom:.4rem;}
+.uc-icon{
+  width:38px;height:38px;border-radius:10px;
+  display:flex;align-items:center;justify-content:center;font-size:1.1rem;
+}
+.cu .uc-icon{background:rgba(56,189,248,.12);}
+.ru .uc-icon{background:rgba(167,139,250,.12);}
+.alu .uc-icon{background:rgba(245,158,11,.12);}
+.uc-name{font-size:.95rem;font-weight:700;}
+.cu .uc-name{color:var(--blue);}
+.ru .uc-name{color:#a78bfa;}
+.alu .uc-name{color:var(--amber);}
+.uc-tag{
+  font-family:'JetBrains Mono',monospace;font-size:.58rem;
+  color:var(--muted);letter-spacing:2px;
+}
+.uc-body{padding:1.2rem 1.5rem;}
+.uc-desc{
+  font-family:'JetBrains Mono',monospace;font-size:.63rem;
+  color:var(--muted);line-height:1.8;margin-bottom:1rem;
+}
+.reg-grid{display:flex;flex-direction:column;gap:.4rem;}
+.reg-row{
+  display:flex;align-items:center;gap:.6rem;
+  padding:.45rem .75rem;background:var(--card2);border-radius:6px;
+}
+.reg-bullet{width:6px;height:6px;border-radius:50%;flex-shrink:0;}
+.reg-code{
+  font-family:'JetBrains Mono',monospace;font-size:.62rem;
+  font-weight:700;min-width:52px;
+}
+.reg-text{font-family:'JetBrains Mono',monospace;font-size:.58rem;color:var(--muted);}
+
+/* ── SIGNAL FLOW SVG ── */
+.flow-section{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:14px;padding:1.5rem;margin-top:2rem;
+}
+.flow-title{
+  font-family:'JetBrains Mono',monospace;font-size:.65rem;
+  color:var(--amber);letter-spacing:3px;margin-bottom:1.2rem;
+}
+
+/* ── BOOT TIMELINE ── */
+.boot-wrap{display:grid;grid-template-columns:1fr 1fr;gap:2rem;align-items:start;}
+.boot-timeline{position:relative;padding-left:2.5rem;}
+.boot-track{
+  position:absolute;left:.6rem;top:0;bottom:0;width:2px;
+  background:linear-gradient(180deg,var(--amber),var(--teal),var(--blue));
+}
+.boot-step{
+  position:relative;margin-bottom:1.5rem;
+  padding:1.2rem 1.5rem;
+  background:var(--card);border:1px solid var(--border);border-radius:12px;
+  cursor:pointer;transition:border-color .25s,transform .2s;
+}
+.boot-step:hover{border-color:rgba(245,158,11,.4);transform:translateX(4px);}
+.boot-step.active-step{border-color:var(--amber);background:var(--card2);}
+.boot-dot{
+  position:absolute;left:-2.1rem;top:1.35rem;
+  width:14px;height:14px;border-radius:50%;border:2px solid var(--bg);
+  box-shadow:0 0 10px currentColor;
+}
+.boot-num{
+  font-family:'JetBrains Mono',monospace;font-size:.58rem;
+  color:var(--amber);letter-spacing:2px;margin-bottom:.3rem;
+}
+.boot-title-text{font-size:.95rem;font-weight:700;margin-bottom:.4rem;}
+.boot-body-text{
+  font-family:'JetBrains Mono',monospace;font-size:.62rem;
+  color:var(--muted);line-height:1.8;
+}
+.signal-chips{display:flex;flex-wrap:wrap;gap:.35rem;margin-top:.75rem;}
+.sc{
+  font-family:'JetBrains Mono',monospace;font-size:.55rem;
+  padding:2px 8px;border-radius:100px;border:1px solid;
+}
+.sc-a{color:var(--amber);border-color:var(--amber);background:rgba(245,158,11,.08);}
+.sc-b{color:var(--blue);border-color:var(--blue);background:rgba(56,189,248,.08);}
+.sc-t{color:var(--teal);border-color:var(--teal);background:rgba(20,184,166,.08);}
+.sc-v{color:#a78bfa;border-color:#a78bfa;background:rgba(167,139,250,.08);}
+
+/* Boot SVG panel */
+.boot-visual{
+  background:var(--card);border:1px solid var(--border);border-radius:14px;
+  padding:1.5rem;position:sticky;top:80px;
+}
+.boot-vis-title{
+  font-family:'JetBrains Mono',monospace;font-size:.62rem;
+  color:var(--amber);letter-spacing:3px;margin-bottom:1rem;
+}
+
+/* ── CYCLE DIAGRAM ── */
+.cycle-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;}
+.cycle-card{
+  background:var(--card);border:1px solid var(--border);border-radius:12px;
+  padding:1.5rem;text-align:center;position:relative;
+  transition:all .25s;cursor:pointer;
+}
+.cycle-card:hover{border-color:rgba(245,158,11,.4);transform:translateY(-3px);}
+.cycle-num{
+  font-family:'Bebas Neue',sans-serif;font-size:3rem;
+  color:rgba(245,158,11,.1);position:absolute;top:.5rem;right:.75rem;
+  line-height:1;
+}
+.cycle-emoji{font-size:2rem;margin-bottom:.75rem;}
+.cycle-name{font-size:1rem;font-weight:700;margin-bottom:.4rem;}
+.cycle-en{
+  font-family:'JetBrains Mono',monospace;font-size:.58rem;
+  color:var(--muted);margin-bottom:.75rem;letter-spacing:2px;
+}
+.cycle-desc{
+  font-family:'JetBrains Mono',monospace;font-size:.62rem;
+  color:var(--muted);line-height:1.8;
+}
+.cycle-tags{display:flex;flex-wrap:wrap;gap:.35rem;justify-content:center;margin-top:.75rem;}
+
+/* ── CONCEPTS GRID ── */
+.concepts-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1.5rem;}
+.concept-card{
+  background:var(--card);border:1px solid var(--border);border-radius:12px;
+  padding:1.5rem;cursor:pointer;transition:all .25s;
+}
+.concept-card:hover{border-color:rgba(245,158,11,.3);transform:translateY(-3px);}
+.concept-icon{font-size:1.8rem;margin-bottom:.75rem;}
+.concept-title{font-size:.95rem;font-weight:700;margin-bottom:.4rem;}
+.concept-text{
+  font-family:'JetBrains Mono',monospace;font-size:.62rem;
+  color:var(--muted);line-height:1.8;
+}
+.concept-bar{height:2px;margin-top:1rem;border-radius:1px;}
+
+/* ── MODAL ── */
+.overlay{
+  position:fixed;inset:0;background:rgba(0,0,0,.85);
+  backdrop-filter:blur(10px);z-index:200;
+  display:none;align-items:center;justify-content:center;padding:1.5rem;
+}
+.overlay.open{display:flex;}
+.modal{
+  background:var(--card);border:1px solid rgba(245,158,11,.2);
+  border-radius:18px;padding:2.5rem;max-width:700px;width:100%;
+  max-height:88vh;overflow-y:auto;position:relative;
+  animation:mIn .3s ease;
+}
+@keyframes mIn{from{opacity:0;transform:scale(.95) translateY(20px)}to{opacity:1;transform:scale(1) translateY(0)}}
+.modal-close{
+  position:absolute;top:1.25rem;right:1.25rem;
+  background:none;border:1px solid var(--border);color:var(--muted);
+  width:32px;height:32px;border-radius:6px;cursor:pointer;font-size:1rem;
+  transition:all .2s;
+}
+.modal-close:hover{border-color:var(--amber);color:var(--amber);}
+.modal-tag{
+  font-family:'JetBrains Mono',monospace;font-size:.58rem;
+  color:var(--amber);letter-spacing:3px;display:block;margin-bottom:.75rem;
+}
+.modal h3{font-family:'Bebas Neue',sans-serif;font-size:1.8rem;letter-spacing:1px;margin-bottom:1rem;}
+.modal p{
+  font-family:'JetBrains Mono',monospace;font-size:.65rem;
+  color:var(--muted);line-height:1.9;margin-bottom:.75rem;
+}
+.modal ul{padding-left:1.2rem;margin-bottom:.75rem;}
+.modal li{
+  font-family:'JetBrains Mono',monospace;font-size:.63rem;
+  color:var(--muted);line-height:1.9;margin-bottom:.3rem;
+}
+.modal li strong{color:var(--text);}
+.modal-hr{height:1px;background:var(--border);margin:1.25rem 0;}
+
+/* ── REVEAL ANIMATION ── */
+.reveal{opacity:0;transform:translateY(28px);transition:opacity .65s ease,transform .65s ease;}
+.reveal.in{opacity:1;transform:translateY(0);}
+
+/* ── FOOTER ── */
+footer{
+  border-top:1px solid var(--border);
+  text-align:center;padding:2rem;
+  font-family:'JetBrains Mono',monospace;font-size:.6rem;color:var(--muted);
+}
+footer span{color:var(--amber);}
+
+@media(max-width:900px){
+  .cpu-internal,.cycle-grid{grid-template-columns:1fr;}
+  .boot-wrap{grid-template-columns:1fr;}
+  .nav-tabs{display:none;}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-brand">CPU · ARCH</div>
+  <div class="nav-tabs">
+    <a class="nav-tab" href="#componentes">COMPONENTES</a>
+    <a class="nav-tab" href="#cpu">CPU</a>
+    <a class="nav-tab" href="#ciclo">CICLO FDE</a>
+    <a class="nav-tab" href="#arranque">ARRANQUE</a>
+    <a class="nav-tab" href="#conceptos">CONCEPTOS</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div id="hero">
+  <div class="hero-chip"></div>
+  <div class="hero-eyebrow">MÓDULO 2 · ARQUITECTURA DE COMPUTADORAS · ANÁHUAC ONLINE</div>
+  <h1>ESTRUCTURA Y<br><span class="hl">FUNCIONAMIENTO</span><br>DE LA COMPUTADORA</h1>
+  <p class="hero-desc">
+    Diagrama interactivo con audio, gráficos animados y flujo de señales.<br>
+    Desde los componentes externos hasta el interior de la CPU y la secuencia de arranque.
+  </p>
+  <div class="cta-row">
+    <a href="#componentes" class="btn btn-amber">Explorar diagrama ↓</a>
+    <a href="#arranque" class="btn btn-outline">Ver arranque →</a>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     SECCIÓN 1 — COMPONENTES MACRO
+══════════════════════════════════════════════ -->
+<section id="componentes">
+  <div class="sec-eyebrow">01 — ESTRUCTURA GENERAL</div>
+  <h2>Componentes de la <span>Computadora</span></h2>
+  <p class="sec-desc">
+    Una computadora es un sistema formado por subsistemas interconectados mediante un bus de sistema compuesto por tres canales: datos, direcciones y control. Haz clic en cualquier componente para obtener más información.
+  </p>
+
+  <!-- AUDIO PLAYER 1 -->
+  <div class="audio-player" id="ap1" onclick="playAudio('sec1')">
+    <button class="audio-play-btn" id="btn-sec1">▶</button>
+    <div class="audio-bars" id="bars-sec1">
+      <div class="audio-bar"></div><div class="audio-bar"></div>
+      <div class="audio-bar"></div><div class="audio-bar"></div>
+      <div class="audio-bar"></div>
+    </div>
+    <span class="audio-label">🔊 NARRACIÓN — ESTRUCTURA GENERAL DE LA COMPUTADORA</span>
+  </div>
+
+  <div class="diagram-wrap reveal">
+    <!-- MACRO DIAGRAM SVG -->
+    <svg id="macro-svg" viewBox="0 0 1100 520" style="width:100%;height:auto;display:block;" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <marker id="ah-amber" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+          <polygon points="0 0,8 3,0 6" fill="#f59e0b"/>
+        </marker>
+        <marker id="ah-blue" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+          <polygon points="0 0,8 3,0 6" fill="#38bdf8"/>
+        </marker>
+        <marker id="ah-teal" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+          <polygon points="0 0,8 3,0 6" fill="#14b8a6"/>
+        </marker>
+        <marker id="ah-green" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+          <polygon points="0 0,8 3,0 6" fill="#4ade80"/>
+        </marker>
+        <filter id="glow-amber">
+          <feGaussianBlur stdDeviation="3" result="blur"/>
+          <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
+        <linearGradient id="cpu-grad" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="rgba(245,158,11,0.15)"/>
+          <stop offset="100%" stop-color="rgba(245,158,11,0.04)"/>
+        </linearGradient>
+        <linearGradient id="bus-data" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0%" stop-color="#38bdf8" stop-opacity="0"/>
+          <stop offset="50%" stop-color="#38bdf8"/>
+          <stop offset="100%" stop-color="#38bdf8" stop-opacity="0"/>
+        </linearGradient>
+        <linearGradient id="bus-addr" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0%" stop-color="#4ade80" stop-opacity="0"/>
+          <stop offset="50%" stop-color="#4ade80"/>
+          <stop offset="100%" stop-color="#4ade80" stop-opacity="0"/>
+        </linearGradient>
+        <linearGradient id="bus-ctrl" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0%" stop-color="#f59e0b" stop-opacity="0"/>
+          <stop offset="50%" stop-color="#f59e0b"/>
+          <stop offset="100%" stop-color="#f59e0b" stop-opacity="0"/>
+        </linearGradient>
+      </defs>
+
+      <!-- BUS DE SISTEMA (horizontal) -->
+      <!-- Bus datos -->
+      <rect x="80" y="390" width="940" height="14" rx="3" fill="rgba(56,189,248,0.08)" stroke="rgba(56,189,248,0.3)" stroke-width="1"/>
+      <text x="550" y="401" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8" fill="#38bdf8" font-weight="700">BUS DE DATOS</text>
+      <!-- Bus direcciones -->
+      <rect x="80" y="408" width="940" height="14" rx="3" fill="rgba(74,222,128,0.06)" stroke="rgba(74,222,128,0.25)" stroke-width="1"/>
+      <text x="550" y="419" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8" fill="#4ade80" font-weight="700">BUS DE DIRECCIONES</text>
+      <!-- Bus control -->
+      <rect x="80" y="426" width="940" height="14" rx="3" fill="rgba(245,158,11,0.06)" stroke="rgba(245,158,11,0.2)" stroke-width="1"/>
+      <text x="550" y="437" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8" fill="#f59e0b" font-weight="700">BUS DE CONTROL</text>
+
+      <!-- BUS LABEL -->
+      <text x="550" y="468" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="9" fill="rgba(245,158,11,0.6)" letter-spacing="6">BUS DE SISTEMA</text>
+
+      <!-- Animated bus pulses -->
+      <rect class="bus-pulse-data" x="80" y="390" width="60" height="14" rx="3" fill="#38bdf8" opacity="0.5">
+        <animate attributeName="x" from="80" to="960" dur="2.5s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" from="0" to="0.6" dur=".3s" repeatCount="indefinite" calcMode="discrete"/>
+      </rect>
+      <rect x="960" y="408" width="60" height="14" rx="3" fill="#4ade80" opacity="0.45">
+        <animate attributeName="x" from="960" to="80" dur="3s" repeatCount="indefinite"/>
+      </rect>
+      <rect x="80" y="426" width="40" height="14" rx="3" fill="#f59e0b" opacity="0.4">
+        <animate attributeName="x" from="80" to="960" dur="1.8s" repeatCount="indefinite"/>
+      </rect>
+
+      <!-- ─── ENTRADA (izq arriba) ─── -->
+      <rect x="30" y="30" width="190" height="120" rx="12" fill="var(--card)" stroke="rgba(255,255,255,0.07)" stroke-width="1.5" style="cursor:pointer" onclick="openModal('entrada')"/>
+      <text x="125" y="56" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="9" fill="#f59e0b" font-weight="700" letter-spacing="2">ENTRADA</text>
+      <text x="125" y="72" text-anchor="middle" font-family="Rajdhani,sans-serif" font-size="13" fill="white" font-weight="700">Dispositivos de Entrada</text>
+      <text x="125" y="89" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="9" fill="#8097b1">⌨️ Teclado   🖱️ Ratón</text>
+      <text x="125" y="104" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="9" fill="#8097b1">🎤 Micrófono  📷 Cámara</text>
+      <text x="125" y="120" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8" fill="#4ade80">↳ Generan interrupciones</text>
+      <!-- Entrada → Bus -->
+      <line x1="125" y1="150" x2="125" y2="390" stroke="rgba(56,189,248,0.4)" stroke-width="1.5" stroke-dasharray="5 4">
+        <animate attributeName="stroke-dashoffset" from="0" to="-18" dur="1s" repeatCount="indefinite"/>
+      </line>
+
+      <!-- ─── RAM ─── -->
+      <rect x="30" y="190" width="190" height="110" rx="12" fill="var(--card)" stroke="rgba(255,255,255,0.07)" stroke-width="1.5" style="cursor:pointer" onclick="openModal('ram')"/>
+      <text x="125" y="214" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="9" fill="#a78bfa" font-weight="700" letter-spacing="2">MEMORIA PRINCIPAL</text>
+      <text x="125" y="230" text-anchor="middle" font-family="Rajdhani,sans-serif" font-size="13" fill="white" font-weight="700">RAM (Volátil)</text>
+      <text x="125" y="249" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8.5" fill="#8097b1">Instrucciones activas</text>
+      <text x="125" y="264" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8.5" fill="#8097b1">Stack / Vectores / Datos</text>
+      <text x="125" y="279" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8" fill="#a78bfa">MAR→addr  MBR→dato</text>
+      <!-- RAM → Bus -->
+      <line x1="220" y1="245" x2="370" y2="397" stroke="rgba(167,139,250,0.5)" stroke-width="1.5" stroke-dasharray="5 4">
+        <animate attributeName="stroke-dashoffset" from="0" to="-18" dur="1.5s" repeatCount="indefinite"/>
+      </line>
+
+      <!-- ─── BIOS/ROM ─── -->
+      <rect x="30" y="330" width="190" height="50" rx="10" fill="var(--card)" stroke="rgba(255,255,255,0.06)" stroke-width="1" style="cursor:pointer" onclick="openModal('bios')"/>
+      <text x="125" y="350" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="9" fill="#f59e0b" letter-spacing="2">FIRMWARE</text>
+      <text x="125" y="368" text-anchor="middle" font-family="Rajdhani,sans-serif" font-size="12" fill="white" font-weight="700">BIOS / UEFI (ROM)</text>
+
+      <!-- ─── CPU (centro) ─── -->
+      <rect x="350" y="20" width="400" height="360" rx="18" fill="url(#cpu-grad)" stroke="rgba(245,158,11,0.4)" stroke-width="2"/>
+      <text x="550" y="50" text-anchor="middle" font-family="Bebas Neue,sans-serif" font-size="22" fill="white" letter-spacing="3">CPU</text>
+      <text x="550" y="66" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="9" fill="rgba(245,158,11,0.7)">UNIDAD CENTRAL DE PROCESAMIENTO</text>
+
+      <!-- CU box -->
+      <rect x="365" y="80" width="120" height="130" rx="10" fill="rgba(56,189,248,0.07)" stroke="rgba(56,189,248,0.3)" stroke-width="1.2" style="cursor:pointer" onclick="openModal('cu')"/>
+      <text x="425" y="101" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8" fill="#38bdf8" font-weight="700" letter-spacing="1">UNIDAD DE CONTROL</text>
+      <text x="425" y="117" text-anchor="middle" font-family="Rajdhani,sans-serif" font-size="11" fill="white" font-weight="700">CU</text>
+      <text x="425" y="132" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="7.5" fill="#8097b1">PC · IR</text>
+      <text x="425" y="145" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="7.5" fill="#8097b1">MAR · MBR</text>
+      <text x="425" y="158" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="7.5" fill="#8097b1">Fetch / Decode</text>
+      <text x="425" y="173" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="7.5" fill="#38bdf8">Señales de control</text>
+      <text x="425" y="188" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="7.5" fill="#38bdf8">→ ALU  → RU  → MEM</text>
+      <text x="425" y="203" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="7.5" fill="#8097b1">Gestiona interrupciones</text>
+
+      <!-- RU box -->
+      <rect x="490" y="80" width="110" height="130" rx="10" fill="rgba(167,139,250,0.07)" stroke="rgba(167,139,250,0.3)" stroke-width="1.2" style="cursor:pointer" onclick="openModal('ru')"/>
+      <text x="545" y="101" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8" fill="#a78bfa" font-weight="700" letter-spacing="1">REGISTROS</text>
+      <text x="545" y="117" text-anchor="middle" font-family="Rajdhani,sans-serif" font-size="11" fill="white" font-weight="700">RU</text>
+      <text x="545" y="132" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="7.5" fill="#8097b1">GPR: AX BX CX DX</text>
+      <text x="545" y="145" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="7.5" fill="#8097b1">SP · BP · IP</text>
+      <text x="545" y="158" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="7.5" fill="#a78bfa">CCR / PSW</text>
+      <text x="545" y="173" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="7.5" fill="#8097b1">N Z C V flags</text>
+      <text x="545" y="190" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="7.5" fill="#a78bfa">Acceso instantáneo</text>
+      <text x="545" y="205" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="7.5" fill="#8097b1">sin bus externo</text>
+
+      <!-- ALU box -->
+      <rect x="605" y="80" width="130" height="130" rx="10" fill="rgba(245,158,11,0.07)" stroke="rgba(245,158,11,0.3)" stroke-width="1.2" style="cursor:pointer" onclick="openModal('alu')"/>
+      <text x="670" y="101" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8" fill="#f59e0b" font-weight="700" letter-spacing="1">ALU</text>
+      <text x="670" y="117" text-anchor="middle" font-family="Rajdhani,sans-serif" font-size="11" fill="white" font-weight="700">Aritmética &amp; Lógica</text>
+      <text x="670" y="132" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="7.5" fill="#8097b1">+ − × ÷ Aritméticas</text>
+      <text x="670" y="145" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="7.5" fill="#8097b1">AND OR NOT XOR</text>
+      <text x="670" y="158" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="7.5" fill="#f59e0b">SHL SHR ROL ROR</text>
+      <text x="670" y="173" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="7.5" fill="#f59e0b">CMP → flags CCR</text>
+      <text x="670" y="190" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="7.5" fill="#8097b1">Operandos desde GPR</text>
+      <text x="670" y="205" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="7.5" fill="#8097b1">Resultado → GPR</text>
+
+      <!-- Señales internas CU→RU y RU→ALU -->
+      <line x1="485" y1="140" x2="490" y2="140" stroke="#38bdf8" stroke-width="1.5" stroke-dasharray="3 2">
+        <animate attributeName="stroke-dashoffset" from="0" to="-10" dur=".8s" repeatCount="indefinite"/>
+      </line>
+      <line x1="600" y1="150" x2="605" y2="150" stroke="#a78bfa" stroke-width="1.5" stroke-dasharray="3 2">
+        <animate attributeName="stroke-dashoffset" from="0" to="-10" dur=".8s" repeatCount="indefinite"/>
+      </line>
+
+      <!-- CLOCK -->
+      <circle cx="550" cy="240" r="28" fill="rgba(245,158,11,0.06)" stroke="rgba(245,158,11,0.3)" stroke-width="1.2"/>
+      <text x="550" y="237" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8" fill="#f59e0b" font-weight="700">CLK</text>
+      <text x="550" y="252" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8" fill="#8097b1">⏱</text>
+      <!-- CLK → CU -->
+      <line x1="522" y1="240" x2="470" y2="220" stroke="rgba(245,158,11,0.4)" stroke-width="1" stroke-dasharray="3 2"/>
+      <!-- CLK → ALU -->
+      <line x1="578" y1="240" x2="640" y2="220" stroke="rgba(245,158,11,0.4)" stroke-width="1" stroke-dasharray="3 2"/>
+
+      <!-- Bus interno CPU -->
+      <line x1="365" y1="280" x2="735" y2="280" stroke="rgba(245,158,11,0.2)" stroke-width="2" stroke-dasharray="6 3">
+        <animate attributeName="stroke-dashoffset" from="0" to="-18" dur="2s" repeatCount="indefinite"/>
+      </line>
+      <text x="550" y="296" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8" fill="rgba(245,158,11,0.5)" letter-spacing="3">BUS INTERNO CPU</text>
+
+      <!-- Caché -->
+      <rect x="365" y="310" width="370" height="55" rx="8" fill="rgba(20,184,166,0.06)" stroke="rgba(20,184,166,0.2)" stroke-width="1"/>
+      <text x="550" y="332" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8.5" fill="#14b8a6" font-weight="700">CACHÉ L1 / L2</text>
+      <text x="550" y="348" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8" fill="#8097b1">Memoria ultrarrápida entre CPU y RAM principal</text>
+      <text x="550" y="362" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8" fill="#8097b1">Reduce ciclos de espera · Acelera el acceso a instrucciones frecuentes</text>
+
+      <!-- CPU → Bus sistema -->
+      <line x1="550" y1="380" x2="550" y2="390" stroke="rgba(245,158,11,0.6)" stroke-width="2">
+        <animate attributeName="opacity" values="1;0.3;1" dur="1s" repeatCount="indefinite"/>
+      </line>
+
+      <!-- ─── SALIDA (der arriba) ─── -->
+      <rect x="880" y="30" width="190" height="110" rx="12" fill="var(--card)" stroke="rgba(255,255,255,0.07)" stroke-width="1.5" style="cursor:pointer" onclick="openModal('salida')"/>
+      <text x="975" y="54" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="9" fill="#f59e0b" font-weight="700" letter-spacing="2">SALIDA</text>
+      <text x="975" y="70" text-anchor="middle" font-family="Rajdhani,sans-serif" font-size="13" fill="white" font-weight="700">Dispositivos de Salida</text>
+      <text x="975" y="87" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="9" fill="#8097b1">🖥️ Monitor  🖨️ Impresora</text>
+      <text x="975" y="102" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="9" fill="#8097b1">🔊 Bocinas  📡 Red</text>
+      <text x="975" y="118" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8" fill="#4ade80">Conversión digital→analógico</text>
+      <!-- Salida → Bus -->
+      <line x1="975" y1="140" x2="975" y2="390" stroke="rgba(74,222,128,0.4)" stroke-width="1.5" stroke-dasharray="5 4">
+        <animate attributeName="stroke-dashoffset" from="0" to="18" dur="1s" repeatCount="indefinite"/>
+      </line>
+
+      <!-- ─── ALMACENAMIENTO (der abajo) ─── -->
+      <rect x="880" y="180" width="190" height="120" rx="12" fill="var(--card)" stroke="rgba(255,255,255,0.07)" stroke-width="1.5" style="cursor:pointer" onclick="openModal('storage')"/>
+      <text x="975" y="204" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="9" fill="#f59e0b" font-weight="700" letter-spacing="2">ALMACENAMIENTO</text>
+      <text x="975" y="220" text-anchor="middle" font-family="Rajdhani,sans-serif" font-size="13" fill="white" font-weight="700">Memoria Secundaria</text>
+      <text x="975" y="240" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8.5" fill="#8097b1">SSD / HDD (no volátil)</text>
+      <text x="975" y="256" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8.5" fill="#8097b1">ROM: Vector de Arranque</text>
+      <text x="975" y="272" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8.5" fill="#a78bfa">MBR → Bootloader → SO</text>
+      <text x="975" y="288" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8" fill="#8097b1">Datos cargados a RAM</text>
+      <!-- Storage → Bus -->
+      <line x1="880" y1="240" x2="750" y2="410" stroke="rgba(167,139,250,0.4)" stroke-width="1.5" stroke-dasharray="5 4">
+        <animate attributeName="stroke-dashoffset" from="0" to="-18" dur="2s" repeatCount="indefinite"/>
+      </line>
+
+      <!-- Legend -->
+      <rect x="30" y="475" width="12" height="8" rx="2" fill="#38bdf8" opacity=".7"/>
+      <text x="47" y="483" font-family="JetBrains Mono,monospace" font-size="8" fill="#8097b1">Bus de datos (bidireccional)</text>
+      <rect x="240" y="475" width="12" height="8" rx="2" fill="#4ade80" opacity=".7"/>
+      <text x="257" y="483" font-family="JetBrains Mono,monospace" font-size="8" fill="#8097b1">Bus de direcciones (CPU→Memoria)</text>
+      <rect x="510" y="475" width="12" height="8" rx="2" fill="#f59e0b" opacity=".7"/>
+      <text x="527" y="483" font-family="JetBrains Mono,monospace" font-size="8" fill="#8097b1">Bus de control (señales sincronía)</text>
+      <rect x="790" y="475" width="12" height="8" rx="2" fill="#a78bfa" opacity=".7"/>
+      <text x="807" y="483" font-family="JetBrains Mono,monospace" font-size="8" fill="#8097b1">Flujo de instrucciones/datos</text>
+    </svg>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════
+     SECCIÓN 2 — CPU INTERNA
+══════════════════════════════════════════════ -->
+<section id="cpu">
+  <div class="sec-eyebrow">02 — INTERIOR DE LA CPU</div>
+  <h2>Las Tres Unidades <span>Funcionales</span></h2>
+  <p class="sec-desc">La CPU contiene tres unidades que trabajan en coordinación permanente. Cada una tiene registros especializados y funciones precisas.</p>
+
+  <div class="audio-player" id="ap2" onclick="playAudio('sec2')">
+    <button class="audio-play-btn" id="btn-sec2">▶</button>
+    <div class="audio-bars" id="bars-sec2">
+      <div class="audio-bar"></div><div class="audio-bar"></div>
+      <div class="audio-bar"></div><div class="audio-bar"></div>
+      <div class="audio-bar"></div>
+    </div>
+    <span class="audio-label">🔊 NARRACIÓN — UNIDADES INTERNAS DE LA CPU</span>
+  </div>
+
+  <div class="cpu-internal reveal">
+    <!-- CU -->
+    <div class="cpu-unit-card" onclick="openModal('cu_detail')">
+      <div class="uc-header cu">
+        <div class="uc-icon-row">
+          <div class="uc-icon"><span>🎛️</span></div>
+          <div>
+            <div class="uc-tag">UNIDAD II · CU</div>
+            <div class="uc-name cu">Unidad de Control</div>
+          </div>
+        </div>
+      </div>
+      <div class="uc-body">
+        <p class="uc-desc">Dirige el flujo de datos hacia los lugares adecuados. Coordina la ejecución determinando qué operaciones se hacen y cuándo, activando señales de control de forma oportuna.</p>
+        <div class="reg-grid">
+          <div class="reg-row"><div class="reg-bullet" style="background:#38bdf8"></div><span class="reg-code" style="color:#38bdf8">PC</span><span class="reg-text">Program Counter — dirección siguiente instrucción</span></div>
+          <div class="reg-row"><div class="reg-bullet" style="background:#38bdf8"></div><span class="reg-code" style="color:#38bdf8">IR</span><span class="reg-text">Instruction Register — instrucción en ejecución</span></div>
+          <div class="reg-row"><div class="reg-bullet" style="background:#38bdf8"></div><span class="reg-code" style="color:#38bdf8">MAR</span><span class="reg-text">Memory Address Register — dirección a acceder</span></div>
+          <div class="reg-row"><div class="reg-bullet" style="background:#38bdf8"></div><span class="reg-code" style="color:#38bdf8">MBR</span><span class="reg-text">Memory Buffer Register — dato leído o a escribir</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RU -->
+    <div class="cpu-unit-card" onclick="openModal('ru_detail')">
+      <div class="uc-header ru">
+        <div class="uc-icon-row">
+          <div class="uc-icon"><span>📋</span></div>
+          <div>
+            <div class="uc-tag">UNIDAD I · RU</div>
+            <div class="uc-name ru">Unidad de Registros</div>
+          </div>
+        </div>
+      </div>
+      <div class="uc-body">
+        <p class="uc-desc">Almacenamiento interno de muy alta velocidad. Los registros son similares a la memoria pero están construidos dentro de la CPU, con conexión física directa a las demás unidades.</p>
+        <div class="reg-grid">
+          <div class="reg-row"><div class="reg-bullet" style="background:#a78bfa"></div><span class="reg-code" style="color:#a78bfa">GPR</span><span class="reg-text">Propósito general: AX, BX, CX, DX</span></div>
+          <div class="reg-row"><div class="reg-bullet" style="background:#a78bfa"></div><span class="reg-code" style="color:#a78bfa">CCR</span><span class="reg-text">Flags de estado: N, Z, C, V (PSW)</span></div>
+          <div class="reg-row"><div class="reg-bullet" style="background:#a78bfa"></div><span class="reg-code" style="color:#a78bfa">SP</span><span class="reg-text">Stack Pointer — cima de la pila</span></div>
+          <div class="reg-row"><div class="reg-bullet" style="background:#a78bfa"></div><span class="reg-code" style="color:#a78bfa">BP</span><span class="reg-text">Base Pointer — base del marco de pila</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ALU -->
+    <div class="cpu-unit-card" onclick="openModal('alu_detail')">
+      <div class="uc-header alu">
+        <div class="uc-icon-row">
+          <div class="uc-icon"><span>➕</span></div>
+          <div>
+            <div class="uc-tag">UNIDAD III · ALU</div>
+            <div class="uc-name alu">Aritmética y Lógica</div>
+          </div>
+        </div>
+      </div>
+      <div class="uc-body">
+        <p class="uc-desc">Realiza todas las operaciones sobre datos. Recibe operandos de los GPR, procesa y devuelve resultado. Actualiza los flags del CCR. Se comunica con otros subsistemas vía bus interno.</p>
+        <div class="reg-grid">
+          <div class="reg-row"><div class="reg-bullet" style="background:#f59e0b"></div><span class="reg-code" style="color:#f59e0b">ARIT</span><span class="reg-text">ADD SUB MUL DIV — operaciones numéricas</span></div>
+          <div class="reg-row"><div class="reg-bullet" style="background:#f59e0b"></div><span class="reg-code" style="color:#f59e0b">LÓGI</span><span class="reg-text">AND OR NOT XOR — booleanas bit a bit</span></div>
+          <div class="reg-row"><div class="reg-bullet" style="background:#f59e0b"></div><span class="reg-code" style="color:#f59e0b">DESP</span><span class="reg-text">SHL SHR — desplazamiento de bits</span></div>
+          <div class="reg-row"><div class="reg-bullet" style="background:#f59e0b"></div><span class="reg-code" style="color:#f59e0b">CMP</span><span class="reg-text">Comparación — actualiza flags CCR</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SVG FLUJO INTERNO CPU -->
+  <div class="flow-section reveal">
+    <div class="flow-title">◈ FLUJO DE SEÑALES INTERNO DE LA CPU — CICLO FETCH-DECODE-EXECUTE</div>
+    <svg viewBox="0 0 1000 220" style="width:100%;height:auto;display:block;" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <marker id="a1" markerWidth="7" markerHeight="5" refX="7" refY="2.5" orient="auto"><polygon points="0 0,7 2.5,0 5" fill="#38bdf8"/></marker>
+        <marker id="a2" markerWidth="7" markerHeight="5" refX="7" refY="2.5" orient="auto"><polygon points="0 0,7 2.5,0 5" fill="#a78bfa"/></marker>
+        <marker id="a3" markerWidth="7" markerHeight="5" refX="7" refY="2.5" orient="auto"><polygon points="0 0,7 2.5,0 5" fill="#f59e0b"/></marker>
+        <marker id="a4" markerWidth="7" markerHeight="5" refX="7" refY="2.5" orient="auto"><polygon points="0 0,7 2.5,0 5" fill="#14b8a6"/></marker>
+      </defs>
+
+      <!-- Memoria -->
+      <rect x="10" y="60" width="130" height="90" rx="8" fill="rgba(167,139,250,0.08)" stroke="rgba(167,139,250,0.4)" stroke-width="1.5"/>
+      <text x="75" y="88" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="9" fill="#a78bfa" font-weight="700">MEMORIA</text>
+      <text x="75" y="104" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8" fill="#8097b1">Instrucciones</text>
+      <text x="75" y="118" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8" fill="#8097b1">y Datos (RAM)</text>
+      <text x="75" y="138" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8" fill="#a78bfa">acceso: MAR/MBR</text>
+
+      <!-- FETCH arrow MEM→IR -->
+      <path d="M140 95 L230 95" stroke="#38bdf8" stroke-width="1.8" fill="none" stroke-dasharray="5 3" marker-end="url(#a1)">
+        <animate attributeName="stroke-dashoffset" from="0" to="-16" dur="1s" repeatCount="indefinite"/>
+      </path>
+      <text x="185" y="88" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="7.5" fill="#38bdf8">FETCH</text>
+      <text x="185" y="99" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="7" fill="#8097b1">instr→MBR→IR</text>
+
+      <!-- CU -->
+      <rect x="230" y="30" width="180" height="160" rx="10" fill="rgba(56,189,248,0.06)" stroke="rgba(56,189,248,0.35)" stroke-width="1.5"/>
+      <text x="320" y="54" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="9" fill="#38bdf8" font-weight="700">UNIDAD DE CONTROL</text>
+      <rect x="244" y="64" width="152" height="24" rx="5" fill="rgba(56,189,248,0.1)" stroke="rgba(56,189,248,0.2)" stroke-width="1"/>
+      <text x="320" y="80" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8.5" fill="white">PC (Program Counter)</text>
+      <rect x="244" y="92" width="152" height="24" rx="5" fill="rgba(56,189,248,0.1)" stroke="rgba(56,189,248,0.2)" stroke-width="1"/>
+      <text x="320" y="108" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8.5" fill="white">IR (Instruction Reg.)</text>
+      <rect x="244" y="120" width="152" height="24" rx="5" fill="rgba(56,189,248,0.1)" stroke="rgba(56,189,248,0.2)" stroke-width="1"/>
+      <text x="320" y="136" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8.5" fill="white">MAR / MBR</text>
+      <text x="320" y="165" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8" fill="#38bdf8">DECODE: interpreta opcode</text>
+      <text x="320" y="179" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8" fill="#8097b1">activa señales de control</text>
+
+      <!-- DECODE arrow CU→RU -->
+      <path d="M410 100 L490 100" stroke="#a78bfa" stroke-width="1.8" fill="none" stroke-dasharray="5 3" marker-end="url(#a2)">
+        <animate attributeName="stroke-dashoffset" from="0" to="-16" dur="1.2s" repeatCount="indefinite"/>
+      </path>
+      <text x="450" y="92" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="7.5" fill="#a78bfa">operandos</text>
+      <text x="450" y="103" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="7" fill="#8097b1">ctrl→GPR</text>
+
+      <!-- RU -->
+      <rect x="490" y="40" width="160" height="140" rx="10" fill="rgba(167,139,250,0.06)" stroke="rgba(167,139,250,0.3)" stroke-width="1.5"/>
+      <text x="570" y="62" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="9" fill="#a78bfa" font-weight="700">REGISTROS (RU)</text>
+      <rect x="504" y="70" width="132" height="20" rx="4" fill="rgba(167,139,250,0.1)" stroke="rgba(167,139,250,0.15)" stroke-width="1"/>
+      <text x="570" y="83" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8" fill="white">AX BX CX DX (GPR)</text>
+      <rect x="504" y="94" width="132" height="20" rx="4" fill="rgba(167,139,250,0.1)" stroke="rgba(167,139,250,0.15)" stroke-width="1"/>
+      <text x="570" y="107" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8" fill="white">CCR/PSW (N Z C V)</text>
+      <rect x="504" y="118" width="132" height="20" rx="4" fill="rgba(167,139,250,0.1)" stroke="rgba(167,139,250,0.15)" stroke-width="1"/>
+      <text x="570" y="131" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8" fill="white">SP / BP (pila)</text>
+      <text x="570" y="158" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8" fill="#a78bfa">Acceso directo a ALU</text>
+      <text x="570" y="172" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="7.5" fill="#8097b1">sin bus externo</text>
+
+      <!-- RU→ALU operandos -->
+      <path d="M650 110 L720 110" stroke="#f59e0b" stroke-width="1.8" fill="none" stroke-dasharray="5 3" marker-end="url(#a3)">
+        <animate attributeName="stroke-dashoffset" from="0" to="-16" dur="1s" repeatCount="indefinite"/>
+      </path>
+      <text x="685" y="102" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="7.5" fill="#f59e0b">operandos</text>
+
+      <!-- ALU -->
+      <rect x="720" y="40" width="160" height="140" rx="10" fill="rgba(245,158,11,0.06)" stroke="rgba(245,158,11,0.3)" stroke-width="1.5"/>
+      <text x="800" y="62" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="9" fill="#f59e0b" font-weight="700">ALU</text>
+      <text x="800" y="78" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8.5" fill="#8097b1">Aritméticas: + − × ÷</text>
+      <text x="800" y="93" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8.5" fill="#8097b1">Lógicas: AND OR NOT</text>
+      <text x="800" y="108" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8.5" fill="#8097b1">Desp: SHL SHR</text>
+      <text x="800" y="123" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8.5" fill="#8097b1">Rotac: ROL ROR</text>
+      <text x="800" y="138" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8.5" fill="#f59e0b">CMP → CCR flags</text>
+      <text x="800" y="155" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8" fill="#8097b1">EXECUTE: realiza la operación</text>
+      <text x="800" y="170" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8" fill="#f59e0b">resultado → GPR / Memoria</text>
+
+      <!-- ALU resultado→RU (retorno) -->
+      <path d="M800 180 Q800 205 570 205 Q490 205 490 175" stroke="#14b8a6" stroke-width="1.5" fill="none" stroke-dasharray="5 3" marker-end="url(#a4)">
+        <animate attributeName="stroke-dashoffset" from="0" to="-16" dur="2s" repeatCount="indefinite"/>
+      </path>
+      <text x="680" y="215" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="7.5" fill="#14b8a6">resultado → GPR</text>
+
+      <!-- CU señal control → ALU -->
+      <path d="M320 190 Q320 210 800 210" stroke="rgba(56,189,248,0.3)" stroke-width="1" fill="none" stroke-dasharray="4 3"/>
+      <text x="560" y="208" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="7" fill="rgba(56,189,248,0.5)">señal control CU → ALU</text>
+
+      <!-- Reloj -->
+      <circle cx="960" cy="110" r="30" fill="none" stroke="rgba(245,158,11,0.3)" stroke-width="1.5"/>
+      <text x="960" y="106" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8" fill="#f59e0b" font-weight="700">RELOJ</text>
+      <text x="960" y="120" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8" fill="#8097b1">CLK</text>
+      <line x1="930" y1="110" x2="880" y2="90" stroke="rgba(245,158,11,0.25)" stroke-width="1" stroke-dasharray="3 2"/>
+      <line x1="930" y1="110" x2="650" y2="80" stroke="rgba(245,158,11,0.15)" stroke-width="1" stroke-dasharray="3 2"/>
+    </svg>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════
+     SECCIÓN 3 — CICLO FDE
+══════════════════════════════════════════════ -->
+<section id="ciclo">
+  <div class="sec-eyebrow">03 — CICLO DE OPERACIÓN</div>
+  <h2>Ciclo <span>Fetch · Decode · Execute</span></h2>
+  <p class="sec-desc">En cada ciclo de reloj la CPU ejecuta tres fases que se repiten de forma continua e infinita mientras la computadora está encendida. Haz clic en cada fase para detalles.</p>
+
+  <div class="audio-player" id="ap3" onclick="playAudio('sec3')">
+    <button class="audio-play-btn" id="btn-sec3">▶</button>
+    <div class="audio-bars" id="bars-sec3">
+      <div class="audio-bar"></div><div class="audio-bar"></div>
+      <div class="audio-bar"></div><div class="audio-bar"></div>
+      <div class="audio-bar"></div>
+    </div>
+    <span class="audio-label">🔊 NARRACIÓN — CICLO FETCH-DECODE-EXECUTE</span>
+  </div>
+
+  <div class="cycle-grid reveal">
+    <div class="cycle-card" onclick="openModal('fetch')">
+      <div class="cycle-num">01</div>
+      <div class="cycle-emoji">📥</div>
+      <div class="cycle-name">FETCH</div>
+      <div class="cycle-en">RECUPERACIÓN</div>
+      <div class="cycle-desc">El PC indica la dirección. Se copia al MAR. La memoria envía la instrucción al MBR. Se transfiere al IR. El PC se incrementa.</div>
+      <div class="cycle-tags">
+        <span class="sc sc-b">PC→MAR</span>
+        <span class="sc sc-b">MEM→MBR</span>
+        <span class="sc sc-v">MBR→IR</span>
+        <span class="sc sc-a">PC++</span>
+      </div>
+    </div>
+    <div class="cycle-card" onclick="openModal('decode')">
+      <div class="cycle-num">02</div>
+      <div class="cycle-emoji">🔍</div>
+      <div class="cycle-name">DECODE</div>
+      <div class="cycle-en">DECODIFICACIÓN</div>
+      <div class="cycle-desc">La CU interpreta el opcode del IR. Determina la operación y los operandos. Genera señales de control. Si hay operandos en memoria, realiza un acceso adicional.</div>
+      <div class="cycle-tags">
+        <span class="sc sc-b">IR→CU</span>
+        <span class="sc sc-b">opcode</span>
+        <span class="sc sc-t">señales ctrl</span>
+      </div>
+    </div>
+    <div class="cycle-card" onclick="openModal('execute')">
+      <div class="cycle-num">03</div>
+      <div class="cycle-emoji">⚡</div>
+      <div class="cycle-name">EXECUTE</div>
+      <div class="cycle-en">EJECUCIÓN</div>
+      <div class="cycle-desc">La ALU opera con los GPR. El resultado vuelve a un GPR o a memoria. Los flags del CCR se actualizan. Las bifurcaciones modifican el PC.</div>
+      <div class="cycle-tags">
+        <span class="sc sc-a">GPR→ALU</span>
+        <span class="sc sc-a">ALU opera</span>
+        <span class="sc sc-t">→GPR/MEM</span>
+        <span class="sc sc-v">CCR flags</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tipos instrucción -->
+  <div style="margin-top:2rem;background:var(--card);border:1px solid var(--border);border-radius:14px;padding:1.5rem;" class="reveal">
+    <div class="flow-title">◈ TIPOS DE INSTRUCCIÓN POR UNIDAD EJECUTORA</div>
+    <svg viewBox="0 0 1000 140" style="width:100%;height:auto;display:block;" xmlns="http://www.w3.org/2000/svg">
+      <!-- ALU instrucciones -->
+      <rect x="10" y="10" width="450" height="115" rx="10" fill="rgba(245,158,11,0.05)" stroke="rgba(245,158,11,0.25)" stroke-width="1.5"/>
+      <text x="235" y="32" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="9" fill="#f59e0b" font-weight="700" letter-spacing="2">INSTRUCCIONES EJECUTADAS EN LA ALU</text>
+      <rect x="20" y="42" width="120" height="22" rx="5" fill="rgba(245,158,11,0.1)" stroke="rgba(245,158,11,0.2)" stroke-width="1"/>
+      <text x="80" y="57" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8.5" fill="#f59e0b">Aritméticas</text>
+      <rect x="150" y="42" width="100" height="22" rx="5" fill="rgba(245,158,11,0.1)" stroke="rgba(245,158,11,0.2)" stroke-width="1"/>
+      <text x="200" y="57" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8.5" fill="#f59e0b">Lógicas</text>
+      <rect x="260" y="42" width="120" height="22" rx="5" fill="rgba(245,158,11,0.1)" stroke="rgba(245,158,11,0.2)" stroke-width="1"/>
+      <text x="320" y="57" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8.5" fill="#f59e0b">Desplazamiento</text>
+      <rect x="20" y="72" width="100" height="22" rx="5" fill="rgba(245,158,11,0.1)" stroke="rgba(245,158,11,0.2)" stroke-width="1"/>
+      <text x="70" y="87" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8.5" fill="#f59e0b">Rotación</text>
+      <rect x="130" y="72" width="120" height="22" rx="5" fill="rgba(245,158,11,0.1)" stroke="rgba(245,158,11,0.2)" stroke-width="1"/>
+      <text x="190" y="87" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8.5" fill="#f59e0b">Comparación CMP</text>
+      <text x="235" y="117" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="7.5" fill="#8097b1">Opciones del examen: 2, 3, 4, 5, 6 → correctas en ALU</text>
+
+      <!-- CU instrucciones -->
+      <rect x="480" y="10" width="510" height="115" rx="10" fill="rgba(56,189,248,0.05)" stroke="rgba(56,189,248,0.25)" stroke-width="1.5"/>
+      <text x="735" y="32" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="9" fill="#38bdf8" font-weight="700" letter-spacing="2">INSTRUCCIONES GESTIONADAS POR LA CU</text>
+      <rect x="490" y="42" width="140" height="22" rx="5" fill="rgba(56,189,248,0.1)" stroke="rgba(56,189,248,0.2)" stroke-width="1"/>
+      <text x="560" y="57" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8.5" fill="#38bdf8">Transferencia MOV</text>
+      <rect x="640" y="42" width="130" height="22" rx="5" fill="rgba(56,189,248,0.1)" stroke="rgba(56,189,248,0.2)" stroke-width="1"/>
+      <text x="705" y="57" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8.5" fill="#38bdf8">Bifurcación JMP</text>
+      <rect x="780" y="42" width="130" height="22" rx="5" fill="rgba(56,189,248,0.1)" stroke="rgba(56,189,248,0.2)" stroke-width="1"/>
+      <text x="845" y="57" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8.5" fill="#38bdf8">CALL / RET</text>
+      <text x="735" y="87" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8" fill="#8097b1">Las bifurcaciones modifican el PC según los flags del CCR</text>
+      <text x="735" y="104" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8" fill="#8097b1">CALL guarda PC en pila → salta a subrutina. RET restaura PC.</text>
+    </svg>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════
+     SECCIÓN 4 — ARRANQUE
+══════════════════════════════════════════════ -->
+<section id="arranque">
+  <div class="sec-eyebrow">04 — SECUENCIA DE ARRANQUE</div>
+  <h2>Desde <span>Energización</span> al Programa Principal</h2>
+  <p class="sec-desc">Secuencia exacta de eventos, señales y componentes involucrados desde que se presiona el botón de encendido hasta que el SO queda en operación. Haz clic en cada fase.</p>
+
+  <div class="audio-player" id="ap4" onclick="playAudio('sec4')">
+    <button class="audio-play-btn" id="btn-sec4">▶</button>
+    <div class="audio-bars" id="bars-sec4">
+      <div class="audio-bar"></div><div class="audio-bar"></div>
+      <div class="audio-bar"></div><div class="audio-bar"></div>
+      <div class="audio-bar"></div>
+    </div>
+    <span class="audio-label">🔊 NARRACIÓN — SECUENCIA DE ARRANQUE COMPLETA</span>
+  </div>
+
+  <div class="boot-wrap reveal">
+    <div class="boot-timeline">
+      <div class="boot-track"></div>
+
+      <div class="boot-step" onclick="openModal('boot1')">
+        <div class="boot-dot" style="background:#f59e0b;color:#f59e0b;"></div>
+        <div class="boot-num">FASE 01 — ENERGIZACIÓN</div>
+        <div class="boot-title-text">⚡ Suministro de Energía (PSU)</div>
+        <div class="boot-body-text">La fuente de poder convierte CA→CC. Genera voltajes regulados (+12V, +5V, +3.3V). Cuando los voltajes son estables envía la señal POWER_GOOD al motherboard, que libera la línea de RESET del microprocesador.</div>
+        <div class="signal-chips">
+          <span class="sc sc-a">POWER_GOOD</span>
+          <span class="sc sc-a">+12V / +5V / +3.3V</span>
+          <span class="sc sc-b">→ RESET liberado</span>
+        </div>
+      </div>
+
+      <div class="boot-step" onclick="openModal('boot2')">
+        <div class="boot-dot" style="background:#38bdf8;color:#38bdf8;"></div>
+        <div class="boot-num">FASE 02 — VECTOR DE ARRANQUE</div>
+        <div class="boot-title-text">🔄 Primer contenido del PC</div>
+        <div class="boot-body-text">Al liberarse el RESET, el PC se carga automáticamente con la dirección del Vector de Arranque (en ROM/Flash). En x86, esta es la dirección 0xFFFF0. Es la primera instrucción ejecutada por el microprocesador recién energizado. El formato del opcode determina cuántas localidades ocupa.</div>
+        <div class="signal-chips">
+          <span class="sc sc-v">PC ← Vector Arranque</span>
+          <span class="sc sc-b">ROM / Flash</span>
+          <span class="sc sc-t">Primera instrucción</span>
+        </div>
+      </div>
+
+      <div class="boot-step" onclick="openModal('boot3')">
+        <div class="boot-dot" style="background:#14b8a6;color:#14b8a6;"></div>
+        <div class="boot-num">FASE 03 — POST</div>
+        <div class="boot-title-text">🔬 Power-On Self Test (BIOS/UEFI)</div>
+        <div class="boot-body-text">La BIOS ejecuta rutinas de diagnóstico: verifica la CPU, cuenta e inicializa la RAM, detecta dispositivos en el bus, inicializa la Tabla de Vectores de Interrupción (IVT/IDT), inicializa el controlador de video. Errores críticos: códigos de beep.</div>
+        <div class="signal-chips">
+          <span class="sc sc-a">Test CPU/RAM</span>
+          <span class="sc sc-b">Init BUS</span>
+          <span class="sc sc-t">IVT activa</span>
+          <span class="sc sc-v">Detectar HW</span>
+        </div>
+      </div>
+
+      <div class="boot-step" onclick="openModal('boot4')">
+        <div class="boot-dot" style="background:#4ade80;color:#4ade80;"></div>
+        <div class="boot-num">FASE 04 — BOOTLOADER</div>
+        <div class="boot-title-text">💿 Carga del Gestor de Arranque</div>
+        <div class="boot-body-text">La BIOS busca el dispositivo de arranque (según orden de boot). Lee el MBR (sector 0 del disco) o partición EFI. Lo carga en RAM y transfiere el control. El bootloader (GRUB / BOOTMGR) localiza el kernel del SO.</div>
+        <div class="signal-chips">
+          <span class="sc sc-b">MBR → RAM</span>
+          <span class="sc sc-v">PC ← dir RAM</span>
+          <span class="sc sc-a">Bootloader exec</span>
+        </div>
+      </div>
+
+      <div class="boot-step" onclick="openModal('boot5')">
+        <div class="boot-dot" style="background:#a78bfa;color:#a78bfa;"></div>
+        <div class="boot-num">FASE 05 — KERNEL DEL SO</div>
+        <div class="boot-title-text">🖥️ Carga e Inicio del Sistema Operativo</div>
+        <div class="boot-body-text">El bootloader carga el kernel en RAM. El kernel inicializa drivers, configura memoria virtual, activa el planificador de procesos (scheduler), lanza el proceso init. El ciclo FDE continúa, ahora ejecutando instrucciones del SO.</div>
+        <div class="signal-chips">
+          <span class="sc sc-t">Kernel en RAM</span>
+          <span class="sc sc-v">IDT configurada</span>
+          <span class="sc sc-b">Drivers init</span>
+          <span class="sc sc-a">Scheduler activo</span>
+        </div>
+      </div>
+
+      <div class="boot-step" onclick="openModal('boot6')">
+        <div class="boot-dot" style="background:#f87171;color:#f87171;"></div>
+        <div class="boot-num">FASE 06 — OPERACIÓN NORMAL</div>
+        <div class="boot-title-text">✅ Programa Principal en Ejecución</div>
+        <div class="boot-body-text">El SO queda corriendo. El ciclo Fetch→Decode→Execute se repite infinitamente. Las interrupciones permiten atender eventos externos. Las subrutinas modularizan el código usando la pila. El PC siempre apunta a la siguiente instrucción a ejecutar.</div>
+        <div class="signal-chips">
+          <span class="sc sc-a">Ciclo FDE ∞</span>
+          <span class="sc sc-t">Interrupciones</span>
+          <span class="sc sc-v">CALL / RET (Pila)</span>
+          <span class="sc sc-b">E/S activa</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Boot visual SVG -->
+    <div class="boot-visual">
+      <div class="boot-vis-title">◈ FLUJO DE SEÑALES DURANTE EL ARRANQUE</div>
+      <svg viewBox="0 0 380 580" style="width:100%;height:auto;display:block;" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <marker id="ba1" markerWidth="7" markerHeight="5" refX="7" refY="2.5" orient="auto"><polygon points="0 0,7 2.5,0 5" fill="#f59e0b"/></marker>
+          <marker id="ba2" markerWidth="7" markerHeight="5" refX="7" refY="2.5" orient="auto"><polygon points="0 0,7 2.5,0 5" fill="#38bdf8"/></marker>
+          <marker id="ba3" markerWidth="7" markerHeight="5" refX="7" refY="2.5" orient="auto"><polygon points="0 0,7 2.5,0 5" fill="#14b8a6"/></marker>
+          <marker id="ba4" markerWidth="7" markerHeight="5" refX="7" refY="2.5" orient="auto"><polygon points="0 0,7 2.5,0 5" fill="#4ade80"/></marker>
+          <marker id="ba5" markerWidth="7" markerHeight="5" refX="7" refY="2.5" orient="auto"><polygon points="0 0,7 2.5,0 5" fill="#a78bfa"/></marker>
+        </defs>
+
+        <!-- PSU -->
+        <rect x="120" y="10" width="140" height="44" rx="8" fill="rgba(245,158,11,0.1)" stroke="rgba(245,158,11,0.5)" stroke-width="1.5"/>
+        <text x="190" y="30" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="9" fill="#f59e0b" font-weight="700">PSU</text>
+        <text x="190" y="46" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8" fill="#8097b1">Fuente de poder</text>
+
+        <!-- POWER_GOOD signal -->
+        <path d="M190 54 L190 82" stroke="#f59e0b" stroke-width="2" fill="none" marker-end="url(#ba1)" stroke-dasharray="4 3">
+          <animate attributeName="stroke-dashoffset" from="0" to="-14" dur=".8s" repeatCount="indefinite"/>
+        </path>
+        <text x="210" y="70" font-family="JetBrains Mono,monospace" font-size="8" fill="#f59e0b">POWER_GOOD</text>
+
+        <!-- CPU/RESET -->
+        <rect x="100" y="82" width="180" height="44" rx="8" fill="rgba(56,189,248,0.08)" stroke="rgba(56,189,248,0.4)" stroke-width="1.5"/>
+        <text x="190" y="101" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="9" fill="#38bdf8" font-weight="700">CPU — RESET liberado</text>
+        <text x="190" y="117" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8" fill="#8097b1">PC ← Vector de Arranque</text>
+
+        <!-- PC → ROM -->
+        <path d="M190 126 L190 154" stroke="#38bdf8" stroke-width="2" fill="none" marker-end="url(#ba2)" stroke-dasharray="4 3">
+          <animate attributeName="stroke-dashoffset" from="0" to="-14" dur="1s" repeatCount="indefinite"/>
+        </path>
+        <text x="210" y="143" font-family="JetBrains Mono,monospace" font-size="8" fill="#38bdf8">PC→ROM addr</text>
+
+        <!-- BIOS/ROM -->
+        <rect x="90" y="154" width="200" height="55" rx="8" fill="rgba(20,184,166,0.08)" stroke="rgba(20,184,166,0.4)" stroke-width="1.5"/>
+        <text x="190" y="174" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="9" fill="#14b8a6" font-weight="700">BIOS / UEFI (ROM)</text>
+        <text x="190" y="190" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8" fill="#8097b1">POST → Test HW</text>
+        <text x="190" y="202" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8" fill="#8097b1">Init IVT · Init video</text>
+
+        <!-- BIOS → Disco -->
+        <path d="M190 209 L190 240" stroke="#14b8a6" stroke-width="2" fill="none" marker-end="url(#ba3)" stroke-dasharray="4 3">
+          <animate attributeName="stroke-dashoffset" from="0" to="-14" dur="1.2s" repeatCount="indefinite"/>
+        </path>
+        <text x="210" y="228" font-family="JetBrains Mono,monospace" font-size="8" fill="#14b8a6">busca MBR</text>
+
+        <!-- Disco / MBR -->
+        <rect x="90" y="240" width="200" height="55" rx="8" fill="rgba(74,222,128,0.07)" stroke="rgba(74,222,128,0.35)" stroke-width="1.5"/>
+        <text x="190" y="260" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="9" fill="#4ade80" font-weight="700">SSD / HDD</text>
+        <text x="190" y="276" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8" fill="#8097b1">MBR / EFI → Bootloader</text>
+        <text x="190" y="290" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8" fill="#4ade80">carga kernel SO en RAM</text>
+
+        <!-- MBR → RAM -->
+        <path d="M190 295 L190 326" stroke="#4ade80" stroke-width="2" fill="none" marker-end="url(#ba4)" stroke-dasharray="4 3">
+          <animate attributeName="stroke-dashoffset" from="0" to="-14" dur="1s" repeatCount="indefinite"/>
+        </path>
+        <text x="210" y="314" font-family="JetBrains Mono,monospace" font-size="8" fill="#4ade80">MBR→RAM</text>
+
+        <!-- RAM / Kernel -->
+        <rect x="80" y="326" width="220" height="65" rx="8" fill="rgba(167,139,250,0.08)" stroke="rgba(167,139,250,0.4)" stroke-width="1.5"/>
+        <text x="190" y="348" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="9" fill="#a78bfa" font-weight="700">RAM — Kernel cargado</text>
+        <text x="190" y="364" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8" fill="#8097b1">Drivers · Scheduler</text>
+        <text x="190" y="378" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8" fill="#8097b1">IDT · Memoria virtual</text>
+        <text x="190" y="384" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8" fill="#a78bfa">PC ← dir. kernel</text>
+
+        <!-- Kernel → CPU ciclo -->
+        <path d="M190 391 L190 422" stroke="#a78bfa" stroke-width="2" fill="none" marker-end="url(#ba5)" stroke-dasharray="4 3">
+          <animate attributeName="stroke-dashoffset" from="0" to="-14" dur=".8s" repeatCount="indefinite"/>
+        </path>
+        <text x="210" y="410" font-family="JetBrains Mono,monospace" font-size="8" fill="#a78bfa">PC→kernel</text>
+
+        <!-- CPU corriendo -->
+        <rect x="70" y="422" width="240" height="70" rx="8" fill="rgba(245,158,11,0.08)" stroke="rgba(245,158,11,0.4)" stroke-width="2"/>
+        <text x="190" y="446" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="9" fill="#f59e0b" font-weight="700">CPU — OPERACIÓN NORMAL</text>
+        <text x="190" y="462" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8.5" fill="white">Ciclo FETCH → DECODE → EXECUTE</text>
+        <text x="190" y="477" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8" fill="#8097b1">Interrupciones · Subrutinas · E/S</text>
+        <text x="190" y="489" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="8" fill="#f59e0b">∞ repite infinitamente</text>
+
+        <!-- Loop arrow -->
+        <path d="M310 460 Q360 460 360 200 Q360 100 310 100" stroke="rgba(245,158,11,0.2)" stroke-width="1.5" fill="none" stroke-dasharray="5 4"/>
+        <text x="365" y="285" font-family="JetBrains Mono,monospace" font-size="7.5" fill="rgba(245,158,11,0.5)" transform="rotate(-90,365,285)">CICLO CONTINUO</text>
+
+        <!-- Timeline labels left -->
+        <text x="12" y="35" font-family="JetBrains Mono,monospace" font-size="8" fill="#8097b1">F.01</text>
+        <text x="12" y="107" font-family="JetBrains Mono,monospace" font-size="8" fill="#8097b1">F.02</text>
+        <text x="12" y="183" font-family="JetBrains Mono,monospace" font-size="8" fill="#8097b1">F.03</text>
+        <text x="12" y="269" font-family="JetBrains Mono,monospace" font-size="8" fill="#8097b1">F.04</text>
+        <text x="12" y="356" font-family="JetBrains Mono,monospace" font-size="8" fill="#8097b1">F.05</text>
+        <text x="12" y="456" font-family="JetBrains Mono,monospace" font-size="8" fill="#8097b1">F.06</text>
+        <line x1="30" y1="14" x2="30" y2="490" stroke="rgba(245,158,11,0.12)" stroke-width="1" stroke-dasharray="3 3"/>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════
+     SECCIÓN 5 — CONCEPTOS CLAVE
+══════════════════════════════════════════════ -->
+<section id="conceptos">
+  <div class="sec-eyebrow">05 — CONCEPTOS CLAVE</div>
+  <h2>Definiciones y <span>Fundamentos</span></h2>
+  <p class="sec-desc">Conceptos fundamentales abordados en el módulo. Haz clic para ampliar.</p>
+
+  <div class="audio-player" id="ap5" onclick="playAudio('sec5')">
+    <button class="audio-play-btn" id="btn-sec5">▶</button>
+    <div class="audio-bars" id="bars-sec5">
+      <div class="audio-bar"></div><div class="audio-bar"></div>
+      <div class="audio-bar"></div><div class="audio-bar"></div>
+      <div class="audio-bar"></div>
+    </div>
+    <span class="audio-label">🔊 NARRACIÓN — CONCEPTOS FUNDAMENTALES</span>
+  </div>
+
+  <div class="concepts-grid reveal">
+    <div class="concept-card" onclick="openModal('binario')">
+      <div class="concept-icon">0️⃣1️⃣</div>
+      <div class="concept-title">Sistema Binario</div>
+      <div class="concept-text">Las computadoras usan binario por la naturaleza de los circuitos electrónicos: dos estados físicos estables (encendido=1, apagado=0). No es para simplificar cálculos sino por la física del silicio.</div>
+      <div class="concept-bar" style="background:var(--teal)"></div>
+    </div>
+    <div class="concept-card" onclick="openModal('subrutina')">
+      <div class="concept-icon">🔧</div>
+      <div class="concept-title">Subrutinas (CALL / RET)</div>
+      <div class="concept-text">Bloque de código modularizado para una tarea específica. CALL guarda el PC en la Pila y salta. RET recupera el PC de la Pila y retorna. Permite anidamiento gracias al Stack LIFO.</div>
+      <div class="concept-bar" style="background:#a78bfa"></div>
+    </div>
+    <div class="concept-card" onclick="openModal('interrupciones')">
+      <div class="concept-icon">🚨</div>
+      <div class="concept-title">Interrupciones</div>
+      <div class="concept-text">Señal que suspende la ejecución actual. La CPU guarda su estado, atiende la ISR (Interrupt Service Routine) y restaura el contexto. La IVT/IDT mapea cada interrupción a su rutina.</div>
+      <div class="concept-bar" style="background:var(--amber)"></div>
+    </div>
+    <div class="concept-card" onclick="openModal('reg_vs_mem')">
+      <div class="concept-icon">📝</div>
+      <div class="concept-title">Registros vs. Memoria RAM</div>
+      <div class="concept-text">Los registros son memoria interna a la CPU con acceso en 1 ciclo. La RAM es externa, más lenta y grande. Un registro es parecido a la memoria, pero su ubicación dentro del chip le da acceso directo y ultrarrápido.</div>
+      <div class="concept-bar" style="background:var(--blue)"></div>
+    </div>
+    <div class="concept-card" onclick="openModal('microprocesador')">
+      <div class="concept-icon">🔲</div>
+      <div class="concept-title">Microprocesador vs. Microcontrolador</div>
+      <div class="concept-text">Microprocesador: solo la CPU (CU+ALU+Registros). Necesita RAM y ROM externos. Microcontrolador: CPU+RAM+ROM+periféricos en un solo chip. El microcontrolador sí contiene internamente una CPU.</div>
+      <div class="concept-bar" style="background:var(--amber)"></div>
+    </div>
+    <div class="concept-card" onclick="openModal('von_neumann')">
+      <div class="concept-icon">🏛️</div>
+      <div class="concept-title">Arquitectura Von Neumann</div>
+      <div class="concept-text">Modelo donde instrucciones y datos comparten la misma memoria. El formato del código de operación (opcode) determina cuántas localidades de memoria ocupa cada instrucción del programa.</div>
+      <div class="concept-bar" style="background:var(--teal)"></div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>Arquitectura de Computadoras · Módulo 2 &nbsp;·&nbsp; <span>Estructura Interna de la CPU & Funcionamiento Integral</span></p>
+  <p style="margin-top:.5rem;">Universidad Anáhuac Online &nbsp;·&nbsp; Diagrama interactivo con audio y señales animadas</p>
+</footer>
+
+<!-- ═══════ MODAL ═══════ -->
+<div class="overlay" id="overlay" onclick="closeOnOverlay(event)">
+  <div class="modal" id="modal-box">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <span class="modal-tag" id="m-tag"></span>
+    <h3 id="m-title"></h3>
+    <div id="m-body"></div>
+  </div>
+</div>
+
+<script>
+/* ═══ MODAL DATA ═══ */
+const MD = {
+  entrada:{tag:'DISPOSITIVOS DE ENTRADA',title:'⌨️ Unidad de Entrada',body:`<p>Capturan datos del mundo exterior y los convierten en señales digitales para la CPU.</p><ul><li><strong>Teclado:</strong> Genera scan-codes enviados al SO mediante interrupción de hardware (IRQ1).</li><li><strong>Ratón:</strong> Reporta movimiento relativo y clics por USB o PS/2.</li><li><strong>Cámara/Micrófono:</strong> Señales analógicas digitalizadas por conversores ADC.</li></ul><p>Cada evento de entrada genera una <strong>interrupción</strong> al procesador. La CPU suspende brevemente su ejecución actual, atiende la rutina ISR correspondiente y restaura el contexto.</p>`},
+  ram:{tag:'MEMORIA PRINCIPAL',title:'💾 RAM — Memoria de Trabajo',body:`<p>La RAM es volátil: pierde su contenido al apagarse. Almacena programas en ejecución y sus datos.</p><p>Clasificación por uso:</p><ul><li><strong>Memoria de trabajo:</strong> Datos activos del programa en ejecución.</li><li><strong>Espacio para vectores:</strong> Tabla IVT/IDT con las direcciones de las rutinas de interrupción.</li><li><strong>Memoria de pila (Stack):</strong> Estructura LIFO. Guarda direcciones de retorno (CALL/RET) y variables locales.</li></ul><p>La CPU accede mediante <strong>MAR</strong> (dirección) y <strong>MBR</strong> (dato) a través del bus de sistema.</p>`},
+  bios:{tag:'FIRMWARE',title:'🔧 BIOS / UEFI — ROM',body:`<p>El firmware reside en memoria no volátil (ROM/Flash) y es el primer código ejecutado al energizar.</p><ul><li>Contiene el <strong>Vector de Arranque</strong>: la dirección cargada al PC al salir del RESET.</li><li>Ejecuta el <strong>POST</strong> (Power-On Self Test) para diagnosticar hardware.</li><li>Inicializa la tabla de interrupciones (IVT/IDT).</li><li>Busca el dispositivo de arranque y carga el MBR en RAM.</li></ul>`},
+  salida:{tag:'DISPOSITIVOS DE SALIDA',title:'🖥️ Unidad de Salida',body:`<p>Convierten datos digitales en información perceptible.</p><ul><li><strong>Monitor:</strong> GPU procesa señales de video. Conversión digital→señal HDMI/DP.</li><li><strong>Bocinas:</strong> Conversor DAC transforma señal digital en onda analógica de audio.</li><li><strong>Impresora:</strong> Driver del SO convierte datos en comandos de impresión.</li></ul>`},
+  storage:{tag:'ALMACENAMIENTO SECUNDARIO',title:'💿 Memoria Secundaria',body:`<p>Almacenamiento no volátil. Conserva datos sin alimentación eléctrica.</p><ul><li><strong>SSD/HDD:</strong> Sistema operativo, programas, archivos de usuario. Los programas deben cargarse a RAM antes de ejecutarse.</li><li><strong>ROM/Flash:</strong> Firmware BIOS/UEFI + Vector de Arranque. Primera memoria accedida al encender.</li></ul><p>El acceso es mucho más lento que la RAM, por eso existe la caché como intermediario.</p>`},
+  cu:{tag:'UNIDAD DE CONTROL',title:'🎛️ CU — Unidad de Control (SVG)',body:`<p>La función básica de la CU es <strong>coordinar la ejecución de instrucciones</strong>, determinando qué operaciones se hacen y cuándo, activando las señales de control necesarias de forma oportuna.</p><p>Registros clave:</p><ul><li><strong>PC:</strong> Contiene siempre la dirección de la siguiente instrucción. Al energizarse, se carga con el Vector de Arranque.</li><li><strong>IR:</strong> Almacena la instrucción en ejecución actual.</li><li><strong>MAR:</strong> Dirección de memoria a acceder. El formato del opcode define cuántas localidades ocupa la instrucción.</li><li><strong>MBR:</strong> Dato leído de memoria o a escribir en ella.</li></ul>`},
+  ru:{tag:'UNIDAD DE REGISTROS',title:'📋 RU — Registros Internos',body:`<p>Los registros son similares a la memoria RAM, pero se construyen <strong>dentro de la CPU</strong>, dándoles conexión física directa con ALU y CU, sin necesidad del bus externo.</p><ul><li><strong>GPR (AX,BX,CX,DX):</strong> Propósito general. Guardan operandos y resultados intermedios.</li><li><strong>CCR/PSW:</strong> Flags N(negativo), Z(cero), C(carry), V(overflow). La ALU los actualiza y la CU los lee para bifurcaciones.</li><li><strong>SP:</strong> Stack Pointer. Apunta a la cima de la pila.</li><li><strong>BP:</strong> Base Pointer. Base del marco de pila de la función actual.</li></ul>`},
+  alu:{tag:'ALU',title:'➕ ALU — Aritmética y Lógica',body:`<p>La ALU realiza todas las operaciones sobre datos. Recibe operandos desde los GPR, ejecuta la operación y devuelve el resultado a un GPR o a memoria. Siempre actualiza los flags del CCR.</p><p><strong>Instrucciones que ejecuta la ALU:</strong></p><ul><li><strong>Aritméticas:</strong> ADD SUB MUL DIV</li><li><strong>Lógicas:</strong> AND OR NOT XOR</li><li><strong>Desplazamiento:</strong> SHL SHR (×2 o ÷2 rápido)</li><li><strong>Rotación:</strong> ROL ROR (bits circulan)</li><li><strong>Comparación:</strong> CMP — resta interna sin guardar resultado, solo actualiza CCR</li></ul><p>La comunicación entre ALU y otros subsistemas se da por el bus interno de la CPU y por el bus de sistema hacia memoria.</p>`},
+  cu_detail:{tag:'UNIDAD DE CONTROL — DETALLE',title:'🎛️ CU en el Ciclo FDE',body:`<p>La CU dirige las tres fases del ciclo:</p><ul><li><strong>FETCH:</strong> Copia PC al MAR, ordena lectura de memoria, recibe instrucción en MBR, la pasa al IR, incrementa PC.</li><li><strong>DECODE:</strong> Extrae el opcode del IR. Determina tipo de instrucción y operandos. Genera señales de control para ALU, RU o memoria.</li><li><strong>EXECUTE:</strong> Activa la operación en ALU o mueve datos entre registros/memoria. En bifurcaciones, modifica el PC según los flags del CCR.</li></ul><p><strong>Interrupción:</strong> La CU guarda el estado actual en la pila, consulta la IVT/IDT para obtener la dirección de la ISR y salta a ella. Al terminar la ISR (IRET), restaura el estado.</p>`},
+  ru_detail:{tag:'REGISTROS — DETALLE',title:'📋 Tipos de Registros en la RU',body:`<p>Clasificación completa:</p><ul><li><strong>Relacionados con instrucciones:</strong> PC, IR — controlan el flujo del programa.</li><li><strong>Acceso a datos:</strong> MAR, MBR — interfaz entre CPU y memoria externa.</li><li><strong>Propósito general (GPR):</strong> AX, BX, CX, DX — almacenan operandos y resultados.</li><li><strong>Apuntadores:</strong> SP (Stack Pointer), BP (Base Pointer) — gestionan la pila.</li><li><strong>Estado/Control (CCR/PSW):</strong> Flags N, Z, C, V. Son leídos por la CU para decidir bifurcaciones condicionales.</li></ul><p>Verdadero: un registro es parecido a la memoria, se diferencia por estar <strong>dentro de la CPU</strong> con conexiones físicas directas.</p>`},
+  alu_detail:{tag:'ALU — DETALLE',title:'➕ Operaciones e Instrucciones ALU',body:`<p>La ALU es la que ejecuta: <strong>Aritméticas (2), Lógicas (3), Desplazamiento (4), Rotación (5), Comparación (6)</strong>.</p><p>Las instrucciones de <strong>Transferencia (1)</strong> y <strong>Bifurcación (7)</strong> son gestionadas por la CU.</p><ul><li><strong>SHL/SHR:</strong> Desplazan bits. SHL n = multiplicar por 2ⁿ. SHR n = dividir por 2ⁿ.</li><li><strong>ROL/ROR:</strong> El bit que sale por un extremo entra por el otro.</li><li><strong>CMP:</strong> Realiza (A−B) internamente, descarta resultado, solo actualiza Z, N, C, V del CCR. Las instrucciones JE, JNE, JG, JL leen estos flags.</li></ul>`},
+  fetch:{tag:'CICLO FDE — FASE 1',title:'📥 FETCH: Recuperación',body:`<p>Secuencia exacta:</p><ul><li>1. El PC contiene la dirección de la siguiente instrucción.</li><li>2. PC se copia al MAR. La CU activa señal de <em>lectura</em> en el bus de control.</li><li>3. La RAM coloca el dato (instrucción) en el bus de datos.</li><li>4. MBR recibe el dato desde el bus de datos.</li><li>5. MBR transfiere la instrucción al IR.</li><li>6. El PC se incrementa (PC++) para apuntar a la siguiente instrucción.</li></ul><p>El <strong>formato del código de operación</strong> (opcode) en el IR determina cuántas localidades de memoria ocupa la instrucción completa.</p>`},
+  decode:{tag:'CICLO FDE — FASE 2',title:'🔍 DECODE: Decodificación',body:`<p>La CU interpreta la instrucción en el IR:</p><ul><li>Extrae el <strong>opcode</strong> (código de operación).</li><li>Determina el tipo: aritmética, lógica, transferencia, bifurcación, etc.</li><li>Identifica los registros o direcciones de memoria de los operandos.</li><li>Genera señales de control para la siguiente fase.</li><li>Si hay operandos en memoria: realiza otro ciclo de fetch de datos (MAR←dirección, MBR←dato).</li></ul>`},
+  execute:{tag:'CICLO FDE — FASE 3',title:'⚡ EXECUTE: Ejecución',body:`<p>Se realiza la operación indicada:</p><ul><li><strong>Instrucción ALU:</strong> GPR→ALU opera→resultado vuelve a GPR. Flags CCR actualizados.</li><li><strong>Transferencia:</strong> MAR←dirección, lectura/escritura en RAM mediante MBR.</li><li><strong>Bifurcación condicional:</strong> Si flag del CCR cumple condición → PC←nueva dirección; si no, PC sigue incrementando.</li><li><strong>CALL (subrutina):</strong> PC actual se guarda en Pila (SP--), PC←dirección subrutina.</li><li><strong>RET:</strong> PC←tope de Pila (SP++).</li></ul>`},
+  boot1:{tag:'ARRANQUE — FASE 01',title:'⚡ Energización y POWER_GOOD',body:`<p>Al presionar el botón de encendido, la PSU comienza a generar voltajes. Cuando todos son estables envía <strong>POWER_GOOD</strong> al motherboard.</p><p>Esta señal libera la línea de RESET del microprocesador. Hasta ese momento, el micro permanece en estado RESET sin ejecutar instrucciones.</p><p>Los voltajes típicos: +12V (motores, GPU), +5V (lógica), +3.3V (CPU modernas), -12V.</p>`},
+  boot2:{tag:'ARRANQUE — FASE 02',title:'🔄 Vector de Arranque y primer PC',body:`<p>Al salir del RESET, el PC del microprocesador se carga automáticamente (por hardware) con la <strong>dirección del Vector de Arranque</strong>.</p><p>Esta dirección apunta a la ROM/Flash donde vive la BIOS/UEFI. Es la primera instrucción que ejecuta el procesador recién energizado.</p><p>En x86 esta dirección es <code>0xFFFF0</code> (en modo real). En ARM, el vector está en dirección 0x0 o 0xFFFF0000 según configuración.</p><p>El <strong>formato del código de operación</strong> (opcode) de la instrucción determina cuántas localidades de memoria ocupa.</p>`},
+  boot3:{tag:'ARRANQUE — FASE 03',title:'🔬 POST — Power-On Self Test',body:`<p>La BIOS/UEFI ejecuta diagnósticos:</p><ul><li>Verifica registros internos de la CPU.</li><li>Cuenta e inicializa módulos RAM.</li><li>Detecta y configura dispositivos PCI/PCIe.</li><li>Inicializa el controlador de video (primera salida en pantalla).</li><li>Establece la <strong>Tabla de Vectores de Interrupción (IVT/IDT)</strong>.</li><li>Detecta dispositivos de almacenamiento.</li></ul><p>Si hay errores graves (sin RAM, CPU defectuosa): códigos de beep audibles o LEDs en placa.</p>`},
+  boot4:{tag:'ARRANQUE — FASE 04',title:'💿 Bootloader — Gestor de Arranque',body:`<p>La BIOS busca el dispositivo de arranque según el orden configurado.</p><p>Lee el <strong>MBR</strong> (Master Boot Record, primer sector de 512 bytes del disco) o la <strong>partición EFI</strong> y la copia a RAM. El MBR contiene el código del bootloader (GRUB en Linux, BOOTMGR en Windows).</p><p>La BIOS transfiere el control (<strong>modifica el PC</strong>) a la dirección RAM donde cargó el bootloader, que luego carga el kernel del SO.</p>`},
+  boot5:{tag:'ARRANQUE — FASE 05',title:'🖥️ Kernel del Sistema Operativo',body:`<p>El bootloader carga el kernel del SO en RAM y salta a él (modifica el PC).</p><p>El kernel realiza:</p><ul><li>Configura la <strong>IDT</strong> (Interrupt Descriptor Table) con las rutinas ISR del SO.</li><li>Activa la paginación de memoria (memoria virtual).</li><li>Carga drivers de dispositivos detectados.</li><li>Inicia el planificador de procesos (<em>scheduler</em>).</li><li>Lanza el proceso init / systemd / services.</li></ul><p>El ciclo FDE nunca se interrumpe; simplemente ahora ejecuta instrucciones del kernel.</p>`},
+  boot6:{tag:'ARRANQUE — FASE 06',title:'✅ Operación Normal — Ciclo Infinito',body:`<p>El SO queda en ejecución. El ciclo <strong>Fetch → Decode → Execute</strong> se repite sin fin.</p><p>Tres mecanismos sostienen la operación:</p><ul><li><strong>Ciclo FDE continuo:</strong> La CPU siempre ejecuta la instrucción apuntada por el PC.</li><li><strong>Subrutinas (CALL/RET):</strong> Modularizan el código. La Pila guarda y restaura el contexto de retorno.</li><li><strong>Interrupciones:</strong> Eventos externos (teclado, temporizador, red) suspenden temporalmente la ejecución. Se atienden con ISR y se restaura el estado.</li></ul>`},
+  binario:{tag:'SISTEMA BINARIO',title:'0️⃣1️⃣ ¿Por qué binario?',body:`<p>Las computadoras usan el sistema binario <strong>por la naturaleza de lo que se busca representar</strong>: los transistores tienen dos estados físicos estables y bien diferenciados.</p><ul><li>Encendido (voltaje alto) = <strong>1</strong></li><li>Apagado (voltaje bajo) = <strong>0</strong></li></ul><p>Esta biestabilidad hace que los circuitos sean robustos ante ruido eléctrico y fáciles de fabricar a escala nanométrica.</p><p>No se usa binario para simplificar cálculos (el decimal sería más intuitivo), ni exclusivamente por eficiencia energética. Es una consecuencia directa de la <strong>física del silicio</strong> y la electrónica digital.</p>`},
+  subrutina:{tag:'SUBRUTINAS',title:'🔧 CALL / RET — Subrutinas',body:`<p>Una <strong>subrutina</strong> es un bloque de código modularizado para realizar una tarea específica, reutilizable desde múltiples puntos del programa.</p><p><strong>CALL (llamada):</strong></p><ul><li>El PC actual (dirección de retorno) se guarda en la <strong>Pila</strong> (SP--).</li><li>El PC se carga con la dirección de inicio de la subrutina.</li><li>La ejecución continúa en la subrutina.</li></ul><p><strong>RET (retorno):</strong></p><ul><li>La dirección de retorno se extrae (POP) de la Pila al PC (SP++).</li><li>La ejecución regresa al punto tras el CALL.</li></ul><p>La Pila LIFO permite <strong>subrutinas anidadas</strong> y <strong>recursividad</strong>.</p>`},
+  interrupciones:{tag:'INTERRUPCIONES',title:'🚨 Atención de Interrupciones',body:`<p>Una <strong>interrupción</strong> suspende temporalmente la ejecución para atender un evento urgente.</p><p>Proceso:</p><ul><li>1. Señal de interrupción recibida por la CU.</li><li>2. La CPU termina la instrucción actual.</li><li>3. Guarda estado completo (PC, registros, flags) en la Pila.</li><li>4. Consulta la <strong>IVT/IDT</strong> para obtener la dirección de la ISR.</li><li>5. PC ← dirección de la ISR.</li><li>6. Se ejecuta la rutina de interrupción.</li><li>7. IRET/RTI: restaura el estado desde la Pila y continúa el programa interrumpido.</li></ul>`},
+  reg_vs_mem:{tag:'REGISTROS VS MEMORIA',title:'📝 Registros dentro de la CPU',body:`<p>Afirmación <strong>VERDADERA</strong>: "Un registro es parecido a las memorias, solo se diferencia por estar construida al interior de la CPU y por tanto puede tener conexiones físicas directas con otras unidades funcionales del procesador."</p><p>Comparación:</p><ul><li><strong>Registros:</strong> Dentro de la CPU. Acceso en 1 ciclo de reloj. Decenas de unidades. Sin bus externo.</li><li><strong>Caché L1:</strong> Muy cerca de la CPU. 2-4 ciclos. Kilobytes.</li><li><strong>RAM:</strong> Fuera de la CPU. Decenas de ciclos. Gigabytes.</li><li><strong>SSD/HDD:</strong> Muy lento. Miles de ciclos. Terabytes.</li></ul>`},
+  microprocesador:{tag:'MICROPROCESADOR',title:'🔲 Micro vs Microcontrolador',body:`<p><strong>Microprocesador:</strong> Contiene solo la CPU (CU + ALU + Registros). Necesita componentes externos: RAM, ROM, E/S.</p><p>Sus componentes internos son: <strong>Unidad de Control, ALU y Registros</strong>. El BUS es externo al chip.</p><p>Parámetros importantes más allá del reloj: <strong>caché</strong> (L1/L2/L3), <strong>núcleos</strong> (paralelismo), <strong>arquitectura</strong> (x86-64, ARM), <strong>registros</strong> (ancho 32/64 bits).</p><p><strong>Microcontrolador:</strong> CPU + RAM + ROM/Flash + periféricos en un solo chip. Autosuficiente. El microcontrolador <strong>sí contiene internamente una CPU</strong> (verdadero).</p>`},
+  von_neumann:{tag:'VON NEUMANN',title:'🏛️ Arquitectura Von Neumann',body:`<p>Modelo de computadora donde instrucciones y datos comparten la misma memoria.</p><p><strong>¿Cómo se sabe cuántas localidades ocupa una instrucción?</strong><br>Por el <strong>formato del código de operación</strong> (opcode). El opcode tiene campos que indican el tipo de instrucción y cuántos bytes adicionales de operandos necesita.</p><ul><li>Instrucción de 1 byte: solo opcode, sin operandos.</li><li>Instrucción de 2+ bytes: opcode + operandos inmediatos o direcciones.</li></ul><p>La CU, al decodificar el IR, sabe exactamente cuántas localidades leer y cuánto incrementar el PC.</p>`}
+};
+
+function openModal(k){
+  const d=MD[k];if(!d)return;
+  document.getElementById('m-tag').textContent=d.tag;
+  document.getElementById('m-title').textContent=d.title;
+  document.getElementById('m-body').innerHTML=d.body;
+  document.getElementById('overlay').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closeModal(){
+  document.getElementById('overlay').classList.remove('open');
+  document.body.style.overflow='';
+}
+function closeOnOverlay(e){if(e.target===document.getElementById('overlay'))closeModal();}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal();});
+
+/* ═══ AUDIO (Web Speech API) ═══ */
+const AUDIO_TEXTS = {
+  sec1: `Los componentes principales de una computadora son: los dispositivos de entrada, que capturan datos del exterior; la CPU o Unidad Central de Procesamiento, que es el cerebro del sistema; la memoria principal o RAM, donde se almacenan temporalmente los programas en ejecución; los dispositivos de salida, que presentan los resultados; y el almacenamiento secundario, que guarda datos de forma permanente. Todos se comunican a través del bus de sistema, formado por el bus de datos, el bus de direcciones y el bus de control.`,
+  sec2: `La CPU contiene tres unidades funcionales. La Unidad de Control, o CU, coordina la ejecución de instrucciones y genera señales de control. Sus registros clave son el PC o Program Counter, que apunta a la siguiente instrucción; el IR o Instruction Register; el MAR y el MBR para acceder a memoria. La Unidad de Registros almacena datos internamente con acceso instantáneo, incluyendo los registros de propósito general y el CCR con los flags de estado. La ALU realiza todas las operaciones aritméticas, lógicas, de desplazamiento, rotación y comparación.`,
+  sec3: `El ciclo de operación de la CPU tiene tres fases que se repiten infinitamente. La fase Fetch o recuperación: el PC indica la dirección, se copia al MAR, la memoria envía la instrucción al MBR, pasa al IR, y el PC se incrementa. La fase Decode o decodificación: la CU interpreta el opcode del IR y genera señales de control. La fase Execute o ejecución: la ALU realiza la operación con los operandos de los registros, devuelve el resultado y actualiza los flags del CCR.`,
+  sec4: `La secuencia de arranque comienza con la energización: la fuente de poder envía la señal POWER_GOOD cuando los voltajes son estables, liberando el RESET del microprocesador. El PC se carga con la dirección del Vector de Arranque en la ROM. La BIOS ejecuta el POST, diagnosticando el hardware e inicializando la tabla de vectores de interrupción. Luego busca el dispositivo de arranque, lee el MBR y carga el bootloader en RAM. El bootloader carga el kernel del sistema operativo, que configura drivers, memoria virtual y el planificador. Finalmente el ciclo Fetch-Decode-Execute se repite infinitamente mientras la computadora opera.`,
+  sec5: `Los conceptos fundamentales incluyen: el sistema binario, usado porque los circuitos tienen dos estados físicos estables. Las subrutinas, bloques de código modularizado que usan la instrucción CALL para guardar el PC en la pila y saltar, y RET para retornar. Las interrupciones, señales que suspenden la ejecución para atender eventos urgentes. Los registros, que son memoria interna a la CPU con acceso directo y ultrarrápido. Y la arquitectura Von Neumann, donde el formato del código de operación determina cuántas localidades ocupa cada instrucción.`
+};
+
+let currentUtterance=null;
+let currentKey=null;
+
+function playAudio(key){
+  const btn=document.getElementById('btn-'+key);
+  const bars=document.getElementById('bars-'+key);
+  
+  if(currentKey===key && window.speechSynthesis.speaking){
+    window.speechSynthesis.cancel();
+    btn.textContent='▶';
+    bars.classList.remove('audio-playing');
+    currentKey=null;
+    return;
+  }
+  if(window.speechSynthesis.speaking){
+    window.speechSynthesis.cancel();
+    if(currentKey){
+      document.getElementById('btn-'+currentKey).textContent='▶';
+      document.getElementById('bars-'+currentKey).classList.remove('audio-playing');
+    }
+  }
+  const u=new SpeechSynthesisUtterance(AUDIO_TEXTS[key]);
+  u.lang='es-MX';u.rate=0.92;u.pitch=1;
+  // prefer a Spanish voice if available
+  const voices=window.speechSynthesis.getVoices();
+  const esVoice=voices.find(v=>v.lang.startsWith('es'));
+  if(esVoice)u.voice=esVoice;
+  u.onstart=()=>{btn.textContent='⏸';bars.classList.add('audio-playing');currentKey=key;};
+  u.onend=()=>{btn.textContent='▶';bars.classList.remove('audio-playing');currentKey=null;};
+  u.onerror=()=>{btn.textContent='▶';bars.classList.remove('audio-playing');currentKey=null;};
+  currentUtterance=u;
+  window.speechSynthesis.speak(u);
+}
+
+// preload voices
+window.speechSynthesis.onvoiceschanged=()=>{window.speechSynthesis.getVoices();};
+
+/* ═══ SCROLL REVEAL ═══ */
+const obs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in');});
+},{threshold:0.1});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+</script>
+</body>
+</html>
